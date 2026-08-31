@@ -1,0 +1,49 @@
+{
+  "name": "家庭物品管理系统 · 家的物品数字账本",
+  "short_name": "家庭物品",
+  "description": "全家的物品数字账本：拍照记录、药品效期临期提醒、位置树管理、家人按权限共同维护，东西找得到、药品不过期。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F3EC",
+  "theme_color": "#5F7F5A",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "categories": ["lifestyle", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "添加物品",
+      "short_name": "添加",
+      "url": "./index.html?q=add",
+      "description": "打开拍照添加物品流程"
+    },
+    {
+      "name": "药品效期",
+      "short_name": "药品",
+      "url": "./index.html?q=medicine",
+      "description": "查看药品效期提醒"
+    }
+  ]
+}

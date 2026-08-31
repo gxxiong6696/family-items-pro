@@ -4771,7 +4771,7 @@
       '</div>';
     document.body.appendChild(overlay);
     var style = document.createElement('style');
-    style.textContent = '#lic-modal .lic-mask{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:10000}#lic-modal .lic-box{position:fixed;z-index:10001;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,420px);background:#fff;border-radius:16px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25)}#lic-modal .lic-title{font-size:18px;font-weight:700}#lic-modal .lic-sub{color:#6b7688;font-size:12.5px;margin:6px 0 14px}#lic-modal .lic-input{width:100%;padding:12px 14px;border:1px solid #e6eaf2;border-radius:10px;font-size:15px;font-family:monospace;outline:none;box-sizing:border-box}#lic-modal .lic-input:focus{border-color:#2563eb}#lic-modal .lic-btns{display:flex;gap:10px;margin-top:16px}#lic-modal .lic-btn-primary{flex:1;padding:12px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-size:15px;font-weight:600;cursor:pointer}#lic-modal .lic-btn-ghost{flex:1;padding:11px;border:1px solid #e6eaf2;border-radius:10px;background:#fff;color:#3b4252;font-size:15px;cursor:pointer}#lic-modal .lic-tip{color:#9aa3b2;font-size:11.5px;margin-top:12px;text-align:center}#lic-modal .lic-dev-box{background:#f6f9ff;border:1px solid #e6eaf2;border-radius:10px;padding:10px 12px;margin-bottom:12px}#lic-modal .lic-dev-label{font-size:11.5px;color:#6b7688;margin-bottom:6px}#lic-modal .lic-dev-row{display:flex;align-items:center;gap:8px}#lic-modal .lic-dev-code{flex:1;font-family:Consolas,monospace;font-size:15px;font-weight:600;color:#1c2333;letter-spacing:.5px;user-select:all}#lic-modal .lic-copy-btn{flex:none;padding:6px 12px;border:1px solid #2563eb;border-radius:8px;background:#fff;color:#2563eb;font-size:12.5px;cursor:pointer}';
+    style.textContent = '#lic-modal .lic-mask{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:10000}#lic-modal .lic-box{position:fixed;z-index:10001;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,420px);background:#fff;border-radius:16px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25)}#lic-modal .lic-title{font-size:18px;font-weight:700}#lic-modal .lic-sub{color:#6b7688;font-size:12.5px;margin:6px 0 14px}#lic-modal .lic-input{width:100%;padding:12px 14px;border:1px solid #e6eaf2;border-radius:10px;font-size:15px;font-family:monospace;outline:none;box-sizing:border-box}#lic-modal .lic-input:focus{border-color:#2563eb}#lic-modal .lic-btns{display:flex;gap:10px;margin-top:16px}#lic-modal .lic-btn-primary{flex:1;padding:12px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-size:15px;font-weight:600;cursor:pointer}#lic-modal .lic-btn-ghost{flex:1;padding:11px;border:1px solid #e6eaf2;border-radius:10px;background:#fff;color:#3b4252;font-size:15px;cursor:pointer}#lic-modal .lic-tip{color:#9aa3b2;font-size:11.5px;margin-top:12px;text-align:center}#lic-modal .lic-dev-box{background:#f6f9ff;border:1px solid #e6eaf2;border-radius:10px;padding:10px 12px;margin-bottom:12px}#lic-modal .lic-dev-label{font-size:11.5px;color:#6b7688;margin-bottom:6px}#lic-modal .lic-dev-row{display:flex;align-items:center;gap:8px}#lic-modal .lic-dev-code{flex:1;font-family:Consolas,monospace;font-size:15px;font-weight:600;color:#1c2333;letter-spacing:.5px;user-select:all}#lic-modal .lic-copy-btn{flex:none;padding:6px 12px;border:1px solid #2563eb;border-radius:8px;background:#fff;color:#2563eb;font-size:12.5px;cursor:pointer}.about-role{font-size:14px;font-weight:600;color:#2563eb;margin-top:8px;line-height:1.6}.about-sec-title{font-size:12.5px;font-weight:700;color:#0f172a;margin-top:12px;text-align:left;border-left:3px solid #2563eb;padding-left:6px}.about-text{text-align:left;white-space:pre-line}.about-contact{font-size:13px;color:#6b7688;margin-top:12px;line-height:1.7;text-align:left}';
     document.head.appendChild(style);
 
     overlay.querySelector('#lic-cancel').addEventListener('click', function(){ overlay.remove(); });
@@ -4816,8 +4816,12 @@
   window.APP_VERSION = APP_VERSION;   // 暴露给锁屏等外部脚本
   var APP_AUTHOR = 'Peter.Xiong';
   var APP_MAKER = '智普 AutoClaw 的设计专家系统';
-  var APP_DESC = '本软件由 ' + APP_AUTHOR + ' 利用 ' + APP_MAKER + ' 设计。用于家庭物品管理，如有问题和建议或希望长期使用，请与 Peterx 联系：peterx@qq.com。';
-  var APP_DATE = '2026年8月26日';
+  var APP_CONTACT = '本软件由 ' + APP_AUTHOR + ' 利用 ' + APP_MAKER + ' 设计。如有问题、建议或希望长期使用，请与 Peterx 联系：peterx@qq.com。';
+  var APP_DATE = '2026年8月31日';
+  var APP_ROLE = '专业存档版 · 照片原图存储，质量不降、数量无上限';
+  var APP_FEATURES = '与普通版全部功能一致：\n拍照添加物品（快门直通入库 / 数量步进 / 有效期快捷选择）\n效期提醒中心：药品效期 / 食品保质期 / 家电保修 三页签\n全部物品：关键词 + 拼音搜索、临期状态徽章实时更新\n位置管理：房间 + 二级收纳位、一键折叠、位置查物\n家庭成员管理、物品详情（照片 / 备注 / 归属 / 位置）\n启动密码锁（可选）、离线注册授权（60 天试用）\n数据备份：加密导出 / 导入（.fibe，支持合并导入）';
+  var APP_STORE = '照片以原图存入本机数据库（IndexedDB），质量不降、数量无上限，证件等重要物品高清无损；文字数据本机存储，不联网上传。卸载或清除数据会清空记录，请定期导出备份。';
+  var APP_DIFF = '本版（专业版）为照片原图存档版；普通版照片压缩存储、更省空间。两版备份互通：专业版可导出「普通版兼容包」直接给普通版导入，随时迁移。';
 
   function showAbout(){
     var overlay = document.createElement('div');
@@ -4828,14 +4832,21 @@
         '<div class="lic-title">关于本软件</div>' +
         '<div class="about-body">' +
           '<div class="about-ver">版本号：<span class="about-ver-num">V' + APP_VERSION + '</span></div>' +
-          '<div class="about-text">' + APP_DESC + '</div>' +
+          '<div class="about-role">' + APP_ROLE + '</div>' +
+          '<div class="about-sec-title">主要功能</div>' +
+          '<div class="about-text">' + APP_FEATURES + '</div>' +
+          '<div class="about-sec-title">数据与存储</div>' +
+          '<div class="about-text">' + APP_STORE + '</div>' +
+          '<div class="about-sec-title">与另一版本的区别</div>' +
+          '<div class="about-text">' + APP_DIFF + '</div>' +
+          '<div class="about-contact">' + APP_CONTACT + '</div>' +
           '<div class="about-date">' + APP_DATE + '</div>' +
         '</div>' +
         '<div class="lic-btns"><button class="about-ok" id="about-close">知道了</button></div>' +
       '</div>';
     document.body.appendChild(overlay);
     var style = document.createElement('style');
-    style.textContent = '#about-modal .lic-mask{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:10000}#about-modal .lic-box{position:fixed;z-index:10001;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,400px);background:#fff;border-radius:16px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center}#about-modal .lic-title{font-size:18px;font-weight:700}#about-modal .about-body{margin:14px 0 6px;color:#4b5563;font-size:14px;line-height:1.9}#about-modal .about-ver{font-size:13px;color:#6b7688}#about-modal .about-ver-num{color:#0f172a;font-weight:700;font-family:monospace}#about-modal .about-text{font-size:14px;margin-top:10px;color:#374151}#about-modal .about-date{font-size:12.5px;color:#9aa3b2;margin-top:10px}#about-modal .about-ok{width:100%;padding:11px 0;border:1px solid #e6eaf2;border-radius:10px;background:#fff;color:#3b4252;font-size:15px;cursor:pointer}';
+    style.textContent = '#about-modal .lic-mask{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:10000}#about-modal .lic-box{position:fixed;z-index:10001;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,400px);background:#fff;border-radius:16px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center}#about-modal .lic-title{font-size:18px;font-weight:700}#about-modal .about-body{margin:14px 0 6px;color:#4b5563;font-size:14px;line-height:1.9}#about-modal .about-ver{font-size:13px;color:#6b7688}#about-modal .about-ver-num{color:#0f172a;font-weight:700;font-family:monospace}#about-modal .about-text{font-size:14px;margin-top:10px;color:#374151}#about-modal .about-date{font-size:12.5px;color:#9aa3b2;margin-top:10px}#about-modal .about-ok{width:100%;padding:11px 0;border:1px solid #e6eaf2;border-radius:10px;background:#fff;color:#3b4252;font-size:15px;cursor:pointer}.about-role{font-size:14px;font-weight:600;color:#2563eb;margin-top:8px;line-height:1.6}.about-sec-title{font-size:12.5px;font-weight:700;color:#0f172a;margin-top:12px;text-align:left;border-left:3px solid #2563eb;padding-left:6px}.about-text{text-align:left;white-space:pre-line}.about-contact{font-size:13px;color:#6b7688;margin-top:12px;line-height:1.7;text-align:left}';
     document.head.appendChild(style);
     overlay.querySelector('#about-close').addEventListener('click', function(){ overlay.remove(); });
     overlay.querySelector('.lic-mask').addEventListener('click', function(){ overlay.remove(); });

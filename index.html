@@ -547,15 +547,6 @@
                 <span class="meta" style="font-size: 11px;">拍一下自动录入</span>
               </span>
             </button>
-            <button class="card row" style="gap: 12px; text-align: left; cursor: pointer; border: none; min-height: 76px;" data-action="go-scan-date">
-              <span style="width: 40px; height: 40px; border-radius: 12px; background: var(--accent-soft); display: grid; place-items: center; flex-shrink: 0;">
-                <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; stroke: var(--accent-deep); fill: none; stroke-width: 1.7;"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
-              </span>
-              <span>
-                <span style="display: block; font-weight: 600; font-size: 14px;">扫日期</span>
-                <span class="meta" style="font-size: 11px;">给带效期物品补/改日期</span>
-              </span>
-            </button>
           </section>
 
           <section class="pad" style="margin-bottom: 8px;" id="recent-list">
@@ -1227,118 +1218,6 @@
         </section>
 
         <!-- ════════════ F5 药品扫描（照片处理中） ════════════ -->
-        <section class="page" id="page-medicine-scanning" data-od-id="page-medicine-scanning">
-          <div class="flow-bar">
-            <button class="back-btn" aria-label="返回" data-action="go-medicine"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-            <div class="flow-title">识别药品信息</div>
-            <div class="progress-dots" style="margin: 0 0 0 auto; gap: 4px;"><span class="on"></span><span class="on"></span><span></span></div>
-          </div>
-
-          <section class="pad stack" style="gap: 14px;">
-            <div class="ph-img square" style="aspect-ratio: 4/3; max-height: 240px; width: 100%;">
-              <div style="text-align: center;">
-                <div class="skeleton" style="width: 120px; height: 14px; margin: 0 auto 10px;"></div>
-                <div class="skeleton" style="width: 180px; height: 10px; margin: 0 auto;"></div>
-              </div>
-            </div>
-            <div style="text-align: center;">
-              <div class="skeleton" style="width: 140px; height: 14px; margin: 0 auto 8px;"></div>
-              <div class="skeleton" style="width: 200px; height: 11px; margin: 0 auto;"></div>
-            </div>
-            <p class="meta" style="text-align: center;" id="med-status">正在生成照片…</p>
-            <button class="btn-secondary" style="min-height: 44px; font-size: 13px;" data-action="go-medicine-error">识别失败？手动填写</button>
-          </section>
-        </section>
-
-        <!-- ════════════ F5b 药品扫描（识别失败） ════════════ -->
-        <section class="page" id="page-medicine-error" data-od-id="page-medicine-error">
-          <div class="flow-bar">
-            <button class="back-btn" aria-label="返回" data-action="go-medicine"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-            <div class="flow-title">识别失败</div>
-          </div>
-
-          <section class="pad" style="padding-top: 24px;">
-            <div class="empty-state">
-              <div class="empty-icon">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>
-              </div>
-              <h3>没有读出药品效期</h3>
-              <p>请确保日期区域清晰可见、无遮挡。也可以手动填写生产日期与有效期。</p>
-              <div class="stack" style="gap: 10px;">
-                <button class="btn-primary" data-action="go-medicine">重新拍摄</button>
-                <button class="btn-secondary" data-action="go-medicine-confirm">手动填写</button>
-              </div>
-            </div>
-          </section>
-        </section>
-
-        <!-- ════════════ F6 药品扫描（OCR 结果确认） ════════════ -->
-        <section class="page" id="page-medicine-confirm" data-od-id="page-medicine-confirm">
-          <div class="flow-bar">
-            <button class="back-btn" aria-label="返回" data-action="go-medicine"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-            <div class="flow-title">确认日期并保存</div>
-            <div class="progress-dots" style="margin: 0 0 0 auto; gap: 4px;"><span class="on"></span><span class="on"></span><span class="on"></span></div>
-          </div>
-
-          <section class="pad" style="padding-top: 4px;">
-            <div class="row" style="gap: 14px; align-items: flex-start; margin-bottom: 18px;">
-              <div class="ph-img square" id="med-confirm-ph" style="width: 76px; height: 76px; border-radius: 14px; flex-shrink: 0; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:12px;">待识别</div>
-              <div style="flex: 1;">
-                <div style="font-size: 13px; color: var(--muted); margin-bottom: 4px;" id="med-confirm-status">识别结果待确认</div>
-                <div style="font-weight: 600; font-size: 16px;" id="med-confirm-name">——</div>
-                <div style="font-size: 12px; color: var(--muted); margin-top: 4px;" id="med-confirm-tip">请在下方确认或补充药品效期信息</div>
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="m-name">物品名称</label>
-              <div class="input editable" id="m-name" contenteditable="true" role="textbox" aria-multiline="false">待填写</div>
-              <div class="hint" id="m-name-hint"><span class="conf">·</span> 等待识别结果，也可手动填写</div>
-            </div>
-
-            <div class="field">
-              <label for="m-prod">生产日期</label>
-              <input class="input editable" type="date" id="m-prod">
-              <div class="hint" id="m-prod-hint"><span class="conf">·</span> 日历选择生产日期</div>
-            </div>
-
-            <div class="field">
-              <label for="m-exp">有效期至</label>
-              <input class="input editable" type="date" id="m-exp">
-              <div class="hint" id="m-exp-hint"><span class="conf">·</span> 日历选择有效期，将自动加入临期提醒（提前 30 天）</div>
-            </div>
-
-            <div class="field">
-              <label for="m-batch">批号</label>
-              <div class="input editable" id="m-batch" contenteditable="true" role="textbox" aria-multiline="false">—</div>
-              <div class="hint" id="m-batch-hint"><span class="conf">·</span> 待识别，也可手动填写</div>
-            </div>
-
-            <div class="field">
-              <label for="m-loc">存放位置</label>
-              <select class="input editable" id="m-loc"></select>
-              <div class="hint">从下拉列表选择存放位置</div>
-            </div>
-          </section>
-
-          <section class="pad" style="padding-top: 8px;">
-            <button class="btn-primary" id="save-medicine" data-toast="已更新日期">保存效期</button>
-          </section>
-        </section>
-
-        <!-- ════════════ 扫日期 · 选择物品 ════════════ -->
-        <section class="page" id="page-date-pick" data-od-id="page-date-pick">
-          <div class="flow-bar">
-            <button class="back-btn" aria-label="返回" data-action="go-home"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-            <div class="flow-title">扫日期 · 选择物品</div>
-          </div>
-          <section class="pad" style="padding-top: 8px;">
-            <p class="meta" style="margin-bottom: 8px;">选择要为哪个物品更新日期（生产日期 / 有效期 / 批号）</p>
-            <div id="date-pick-list"></div>
-          </section>
-        </section>
-
-        <!-- ════════════ F7 物品详情 ════════════ -->
         <section class="page" id="page-detail" data-od-id="page-detail">
           <div class="flow-bar">
             <button class="back-btn" aria-label="返回" data-action="go-items"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
@@ -1351,7 +1230,7 @@
 
           <section class="pad" style="padding-top: 16px;">
             <div class="row-between">
-              <h1 class="h2" id="dt-name">布洛芬缓释胶囊</h1>
+              <h1 class="h2" id="dt-name" style="cursor: pointer;" title="点击返回上一页">布洛芬缓释胶囊</h1>
               <span class="badge danger" id="dt-badge">剩 6 天</span>
             </div>
             <p class="meta" style="margin-top: 4px;" id="dt-meta">药品 · 添加于 2025-03-12 · @m1</p>
@@ -1450,7 +1329,6 @@
           </section>
 
           <section class="pad stack" style="gap: 10px; margin-top: 16px;">
-            <button class="btn-secondary" id="dt-scan-date" data-action="go-detail-scan-date" style="display:none;">扫日期 · 更新效期</button>
             <button class="btn-primary" data-action="edit-item">编辑物品</button>
             <button class="btn-secondary" style="color: var(--danger);" data-action="delete-item">删除物品</button>
             <p class="meta" style="text-align: center;">管理员与成员可编辑 · 访客只读</p>
@@ -3483,41 +3361,7 @@
 
   function itemCategory(d) { if (d && d.category) return d.category; if (d && d.meta) { var f = (d.meta.split('·')[0] || '').trim(); return f || '物品'; } return '物品'; }
   function itemHasDate(d) { return !!CAT_WITH_DATE[itemCategory(d)]; }
-  function renderDatePick() {
-    var el = document.getElementById('date-pick-list');
-    if (!el) return;
-    var groups = {};
-    Object.keys(ITEM_DETAILS).forEach(function (n) {
-      var d = ITEM_DETAILS[n];
-      if (d && itemHasDate(d)) {
-        var cat = itemCategory(d) || '药品';
-        (groups[cat] = groups[cat] || []).push(n);
-      }
-    });
-    var hasItems = Object.keys(groups).length > 0;
-    if (!hasItems) {
-      el.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div><h3>暂无带日期的物品</h3><p>先在「拍照添加」里添加带生产日期/有效期的物品</p></div>';
-      return;
-    }
-    var cal = '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>';
-    var header = function (cat, count) {
-      return '<div style="margin:16px 2px 8px;display:flex;align-items:center;gap:8px;"><span style="font-weight:600;font-size:14px;">' + cat + '</span><span style="font-size:12px;color:var(--muted);">' + count + ' 件</span><span style="flex:1;height:1px;background:var(--border);"></span></div>';
-    };
-    var order = CAT_TABS.filter(function (c) { return groups[c]; });
-    Object.keys(groups).forEach(function (c) { if (CAT_TABS.indexOf(c) < 0 && order.indexOf(c) < 0) order.push(c); });
-    var html = order.map(function (cat) {
-      var items = groups[cat];
-      return header(cat, items.length) + items.map(function (n) {
-        var d = ITEM_DETAILS[n];
-        var datePart = (d.exp && d.exp !== '—') ? '有效期 ' + d.exp : '无有效期';
-        var locPart = d.loc ? ' · ' + d.loc : '';
-        var sub = datePart + locPart;
-        return '<div class="item-row" data-action="go-date-pick-item" data-item="' + n + '"><div class="item-thumb">' + cal + '</div><div><div class="i-name">' + n + '</div><div class="i-sub">' + sub + '</div></div></div>';
-      }).join('');
-    }).join('');
-    el.innerHTML = html;
-  }
-  function fillDetail(name) {
+    function fillDetail(name) {
     var d = ITEM_DETAILS[name];
     if (!d) {
       // 详情数据源缺失时：先从用户物品实时合并（修复“列表与详情信息不一致”），仍无才用演示兜底
@@ -3542,8 +3386,6 @@
     document.getElementById('dt-batch').textContent = d.batch;
     document.getElementById('dt-tags').innerHTML = d.tags;
     document.getElementById('dt-note').textContent = d.note;
-    // 带日期(药品/食品)的物品显示“扫日期”按钮，否则隐藏
-    var sd = document.getElementById('dt-scan-date'); if (sd) sd.style.display = itemHasDate(d) ? '' : 'none';
     // 拍照添加的物品回显照片（无则保留占位）
     var ph = document.getElementById('dt-photo');
     // 兑底：详情数据源若缺照片，直接从已保存用户物品里找回（解决列表中缩略图有、详情页没有）
@@ -3686,6 +3528,7 @@
 
   /* ── 物品编辑态 ── */
   var _viewingItem = '布洛芬缓释胶囊';
+  var _detailReturnPage = 'page-items';   // V4.3：详情页返回目标
   var _viewingPhoto = '';
   var _scanDateItem = null, _scanReturnPage = 'page-home', _addPhotoItem = null;
   var CAT_WITH_DATE = { '药品': 1, '食品': 1 };
@@ -3800,8 +3643,8 @@
         if (!sub) sub = d.meta || '';
         subEl.textContent = sub;
       }
-      if (badgeEl && (d.badgeText || d.badge)) badgeEl.textContent = d.badgeText || '正常';
-      if (badgeEl && d.badge) badgeEl.className = 'badge ' + d.badge;
+      var _sbd = expBadgeFor(d.exp) || { badge: d.badge || 'ok', badgeText: d.badgeText || '正常' };
+      if (badgeEl) { badgeEl.textContent = _sbd.badgeText; badgeEl.className = 'badge ' + _sbd.badge; }
     });
   }
 
@@ -3942,6 +3785,7 @@
         _viewingItem = el.getAttribute('data-item') || '布洛芬缓释胶囊';
         _scanDateItem = _viewingItem;
         _scanReturnPage = 'page-detail';
+        try { var _activePg = document.querySelector('.page.active'); _detailReturnPage = (_activePg && _activePg.id) || 'page-items'; } catch (e) { _detailReturnPage = 'page-items'; }
         fillDetail(_viewingItem);
         resetDetailEditMode();
         showPage('page-detail');
@@ -3974,16 +3818,9 @@
       case 'go-scan-error':  inFlow = true; showPage('page-scan-error'); break;
       case 'go-scanning':    inFlow = true; showPage('page-scanning'); break;
       case 'go-scan-confirm': inFlow = true; showPage('page-scan-confirm'); break;
-      case 'go-scan-date':   inFlow = true; window.__lastShotDataURL = ''; renderDatePick(); showPage('page-date-pick'); break;
-      case 'go-date-pick-item': inFlow = true; window.__lastShotDataURL = ''; _addPhotoItem = null; _scanDateItem = el.getAttribute('data-item'); _scanReturnPage = 'page-home'; setMedicineHeader('date'); showPage('page-medicine'); startCamera(); break;
-      case 'go-detail-scan-date': inFlow = true; window.__lastShotDataURL = ''; _addPhotoItem = null; _scanDateItem = _viewingItem; _scanReturnPage = 'page-detail'; setMedicineHeader('date'); showPage('page-medicine'); startCamera(); break;
       case 'go-date-back':   try { stopCamera(); } catch (e) {} showPage(_scanReturnPage || 'page-home'); break;
-      case 'go-medicine':    inFlow = true; window.__lastShotDataURL = ''; _addPhotoItem = null; _scanDateItem = null; setMedicineHeader('date'); showPage('page-medicine'); startCamera(); break;
       case 'add-item-photo': inFlow = true; window.__lastShotDataURL = ''; _addPhotoItem = _viewingItem; _scanReturnPage = 'page-detail'; setMedicineHeader('photo'); showPage('page-medicine'); startCamera(); break;
       case 'view-photo': viewPhoto(); break;
-      case 'go-medicine-error': inFlow = true; showPage('page-medicine-error'); break;
-      case 'go-medicine-scanning': inFlow = true; showPage('page-medicine-scanning'); break;
-      case 'go-medicine-confirm': inFlow = true; showPage('page-medicine-confirm'); break;
       case 'export-backup': exportBackup(); break;
       case 'import-backup': importBackup(); break;
       case 'clear-all-items': clearAllItems(); break;
@@ -4167,6 +4004,17 @@
   // 物品名称"清除"按钮（V3.1 修复：恢复被误删的元素引用声明）
   var _fnameEl = document.getElementById('f-name');
   var _fnameClear = document.getElementById('fname-clear');
+
+  // V4.3：详情页物品名称点击返回上一页
+  (function bindDtNameBack() {
+    var el = document.getElementById('dt-name');
+    if (!el) return;
+    el.addEventListener('click', function () {
+      var target = (typeof _detailReturnPage !== 'undefined' && _detailReturnPage) || (window._detailReturnPage) || 'page-items';
+      resetDetailEditMode();
+      showPage(target);
+    });
+  })();
 
   // V3.5 修复：编辑页保存/取消按钮直接绑定（此前缺失导致按钮不可用）
   document.getElementById('save-item-edit').addEventListener('click', function () { saveItemEdit(); });
@@ -4713,74 +4561,6 @@
       toast('已添加照片');
       return;
     }
-    stopCamera();
-    inFlow = true;
-    var itemName = _scanDateItem || '物品';
-    var d = ITEM_DETAILS[itemName] || {};
-    var img = document.getElementById('med-confirm-ph');
-    if (img) { img.textContent = ''; if (frame) { img.style.backgroundSize = 'cover'; img.style.backgroundImage = 'url(' + frame + ')'; img.style.backgroundPosition = 'center'; } }
-    var mname = document.getElementById('m-name'); if (mname) mname.textContent = itemName;
-    var sName = document.getElementById('med-confirm-name'); if (sName) sName.textContent = itemName;
-    var sStatus = document.getElementById('med-confirm-status'); if (sStatus) sStatus.textContent = '为「' + itemName + '」更新日期';
-    var sTip = document.getElementById('med-confirm-tip'); if (sTip) sTip.textContent = '请确认或修改日期后保存';
-    var h1 = document.getElementById('m-name-hint'); if (h1) h1.innerHTML = '<span class="conf">✓</span> 将更新该物品的日期';
-    var mp = document.getElementById('m-prod'); if (mp) mp.value = (d.prod && d.prod !== '—') ? d.prod : '';
-    var me = document.getElementById('m-exp'); if (me) me.value = (d.exp && d.exp !== '—') ? d.exp : '';
-    var mb = document.getElementById('m-batch'); if (mb) mb.textContent = (d.batch && d.batch !== '—') ? d.batch : '';
-    var mloc = document.getElementById('m-loc');
-    if (mloc) { mloc.innerHTML = (typeof locOptionsHtml === 'function' ? locOptionsHtml(d.loc || '') : ''); }
-    showPage('page-medicine-confirm');
-  });
-
-  document.getElementById('save-medicine').addEventListener('click', function () {
-    var nameEl = document.getElementById('m-name');
-    var prodEl = document.getElementById('m-prod');
-    var expEl = document.getElementById('m-exp');
-    var batchEl = document.getElementById('m-batch');
-    var name = (nameEl ? nameEl.textContent.trim() : '') || _scanDateItem || '物品';
-    var prod = prodEl ? prodEl.value : '';
-    var exp = expEl ? expEl.value : '';
-    var batch = batchEl ? batchEl.textContent.trim() : '';
-    var loc = '';
-    var locEl = document.getElementById('m-loc');
-    if (locEl && locEl.value) loc = locEl.value;
-    var d = ITEM_DETAILS[name] || {};
-  var savePhoto = d.photo || '';
-  if (!savePhoto) {
-    var _m = loadUserItems();
-    for (var _mi = 0; _mi < _m.length; _mi++) {
-      if (_m[_mi] && _m[_mi].name === name && _m[_mi].photo) { savePhoto = _m[_mi].photo; break; }
-    }
-  }
-    var today = new Date();
-    var badge = 'ok', badgeText = '正常';
-    if (exp) {
-      var expDate = new Date(exp);
-      if (!isNaN(expDate.getTime())) {
-        var days = Math.round((expDate.getTime() - today.getTime()) / 86400000);
-        if (days <= 0) { badge = 'danger'; badgeText = '已过期'; }
-        else if (days <= 30) { badge = 'warn'; badgeText = days + ' 天'; }
-      }
-    }
-    // 更新已有物品的日期，不新建；保留原有分类/数量/标签/备注/照片
-    var oldCat = d.category || itemCategory(d);
-    var dm = (d.meta || '').match(/添加于\s*([\d-]+)/);
-    var dstr = (dm && dm[1]) || today.toISOString().slice(0, 10);
-    var member = (((d.meta || '').match(/@(\w+)/) || [])[1]) || '1';
-    upsertUserItem({
-      name: name, category: oldCat,
-      loc: loc || d.loc || '未设置', qty: d.qty || '1', tags: d.tags || '',
-      badge: badge, badgeText: badgeText, added: dstr, member: member,
-      note: d.note || '', prod: prod, exp: exp, batch: batch, photo: savePhoto || ''
-    });
-    mergeUserItemsIntoDetails();
-    renderItemLists();
-    renderReminderCenter();
-    refreshLocationCounts();
-    toast('已更新日期');
-    _viewingItem = name; fillDetail(name);
-    resetDetailEditMode();
-    showPage('page-detail');
   });
 
   /* ── tag selection (single-select) ── */
@@ -5032,7 +4812,7 @@
   }
 
   /* ═══════════ 关于本软件 ═══════════ */
-  var APP_VERSION = '4.1';  // 专业版 V4.1
+  var APP_VERSION = '4.4';  // 专业版 V4.4
   window.APP_VERSION = APP_VERSION;   // 暴露给锁屏等外部脚本
   var APP_AUTHOR = 'Peter.Xiong';
   var APP_MAKER = '智普 AutoClaw 的设计专家系统';

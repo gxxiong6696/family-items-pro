@@ -4211,7 +4211,26 @@
     var week = ['周日','周一','周二','周三','周四','周五','周六'][d.getDay()];
     el.textContent = (d.getMonth() + 1) + '月' + d.getDate() + '日 · ' + week;
   }
-  function renderItemLists() {    var items = getAllItems();
+  // 位置筛选条显示「位置 · 分类」的物品统计数量（随分类切换联动）
+function updateLocFilterCount() {
+  var lab = document.getElementById('loc-filter-label');
+  if (!lab) return;
+  var locFilter = window._locFilter || '';
+  if (!locFilter) return;
+  var catFilter = window._catFilter || 'all';
+  var items = getAllItems().filter(function (it) {
+    var loc = (it.loc || '').trim();
+    return loc === locFilter || loc.indexOf(locFilter + ' · ') === 0;
+  });
+  if (catFilter && catFilter !== 'all') {
+    items = items.filter(function (it) { return normalizeCat(it.cat || it.category) === catFilter; });
+    lab.textContent = '位置：' + locFilter + ' · ' + catFilter + ' ' + items.length + ' 件';
+  } else {
+    lab.textContent = '位置：' + locFilter + ' · 共 ' + items.length + ' 件';
+  }
+}
+function renderItemLists() {    var items = getAllItems();
+    updateLocFilterCount();
     var listEl = document.getElementById('item-list');
     if (listEl) {
       listEl.innerHTML = '';
@@ -4820,7 +4839,7 @@
   }
 
   /* ═══════════ 关于本软件 ═══════════ */
-  var APP_VERSION = '4.8';  // 专业版 V4.4
+  var APP_VERSION = '4.9';  // 专业版 V4.4
   window.APP_VERSION = APP_VERSION;   // 暴露给锁屏等外部脚本
   var APP_AUTHOR = 'Peter.Xiong';
   var APP_MAKER = '智普 AutoClaw 的设计专家系统';

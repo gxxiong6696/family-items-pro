@@ -2,7 +2,7 @@
    策略：离线优先 + 后台网络更新（stale-while-revalidate 简化版）
    缓存：应用外壳（HTML/manifest/图标）全部预缓存，离线可完整打开 */
 
-var CACHE_NAME = 'family-items-pro-v46-20260901-1605';
+var CACHE_NAME = 'family-items-pro-v47-20260901-1935';
 
 var APP_SHELL = [
   './',

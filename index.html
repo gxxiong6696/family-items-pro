@@ -4140,8 +4140,8 @@
     var user = loadUserItems();
     var seen = {};
     var result = [];
-    user.forEach(function (it) { if (it && it.name) { if (seen[it.name]) return; seen[it.name] = 1; var cat = it.category || '物品'; var loc = it.loc || '未设置'; if (!it.loc || it.loc === '未设置') { var _d = null; DEMO_ITEMS.some(function (x) { if (x.name === it.name) { _d = x; return true; } return false; }); if (_d && _d.loc) loc = _d.loc; } result.push({ name: it.name, badge: it.badge || 'ok', badgeText: it.badgeText || '正常', meta: it.meta || (it.added ? cat + ' · 添加于 ' + it.added : ''), loc: loc, qty: it.qty || '1', cat: cat, exp: it.exp || '', photo: it.photo || '' }); } });
-    DEMO_ITEMS.forEach(function (d) { if (!seen[d.name] && deleted.indexOf(d.name) < 0) { result.push({ name: d.name, badge: d.badge, badgeText: d.badgeText, meta: d.meta, loc: d.loc, qty: d.qty, cat: d.cat, photo: '' }); } });
+    user.forEach(function (it) { if (it && it.name) { if (seen[it.name]) return; seen[it.name] = 1; var cat = it.category || '物品'; var loc = it.loc || '未设置'; if (!it.loc || it.loc === '未设置') { var _d = null; DEMO_ITEMS.some(function (x) { if (x.name === it.name) { _d = x; return true; } return false; }); if (_d && _d.loc) loc = _d.loc; } result.push({ name: it.name, badge: it.badge || 'ok', badgeText: it.badgeText || '正常', meta: it.meta || (it.added ? cat + ' · 添加于 ' + it.added : ''), loc: loc, qty: it.qty || '1', cat: cat, exp: it.exp || '', photo: it.photo || '', tags: it.tags || '', note: it.note || '' }); } });
+    DEMO_ITEMS.forEach(function (d) { if (!seen[d.name] && deleted.indexOf(d.name) < 0) { result.push({ name: d.name, badge: d.badge, badgeText: d.badgeText, meta: d.meta, loc: d.loc, qty: d.qty, cat: d.cat, photo: '', tags: d.tags || '', note: d.note || '' }); } });
     return result;
   }
   function buildItemRow(it) {

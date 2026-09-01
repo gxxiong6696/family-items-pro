@@ -1107,7 +1107,7 @@
         <!-- ════════════ F3 拍照添加（确认表单） ════════════ -->
         <section class="page" id="page-scan-confirm" data-od-id="page-scan-confirm">
           <div class="flow-bar">
-            <button class="back-btn" aria-label="返回" data-action="go-scanning"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+            <button class="back-btn" aria-label="返回" data-action="go-scan"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
             <div class="flow-title">确认物品信息</div>
             <div class="progress-dots" style="margin: 0 0 0 auto; gap: 4px;"><span class="on"></span><span class="on"></span><span class="on"></span></div>
           </div>
@@ -4000,6 +4000,7 @@
     var otherTag = null;
     tags.forEach(function (t) { if (t.textContent.trim() === '其他') otherTag = t; });
     if (otherTag) otherTag.classList.add('active');
+    showPage('page-scan-confirm');
   }
   // 物品名称"清除"按钮（V3.1 修复：恢复被误删的元素引用声明）
   var _fnameEl = document.getElementById('f-name');
@@ -4812,7 +4813,7 @@
   }
 
   /* ═══════════ 关于本软件 ═══════════ */
-  var APP_VERSION = '4.5';  // 专业版 V4.4
+  var APP_VERSION = '4.6';  // 专业版 V4.4
   window.APP_VERSION = APP_VERSION;   // 暴露给锁屏等外部脚本
   var APP_AUTHOR = 'Peter.Xiong';
   var APP_MAKER = '智普 AutoClaw 的设计专家系统';

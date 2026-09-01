@@ -6,7 +6,7 @@
 
 ## 与普通版的区别
 
-| | 普通版 [family-items](https://github.com/gxxiong6696/family-items) | 专业版（本仓库） |
+| | 普通版  | 专业版（本仓库） |
 |---|---|---|
 | 照片存储 | 压缩后存 localStorage（约 5MB 上限） | **原图存 IndexedDB（数 GB 配额）** |
 | 适用场景 | 轻量记录 | 证件/药品高清照片、长期大量 |

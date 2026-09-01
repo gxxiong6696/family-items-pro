@@ -603,7 +603,7 @@
             <div style="display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 0 14px; min-height: 46px;">
               <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; stroke: var(--muted); fill: none; stroke-width: 1.8;"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
               <button type="button" id="search-clear" aria-label="清除搜索内容" title="清除搜索内容" style="display: none; border: 0; background: var(--warn-soft); color: var(--warn); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px; cursor: pointer; flex: 0 0 auto;">清除</button>
-              <input id="search-input" placeholder="搜索物品、位置、备注" aria-label="搜索物品" style="border: 0; background: none; flex: 1; font: inherit; font-size: 14px; outline: none; color: var(--fg);" />
+              <input id="search-input" placeholder="搜索物品、位置、标签、备注" aria-label="搜索物品" style="border: 0; background: none; flex: 1; font: inherit; font-size: 14px; outline: none; color: var(--fg);" />
             </div>
           </section>
 
@@ -4219,8 +4219,8 @@
       if (catFilter && catFilter !== 'all') shown = shown.filter(function (it) { return normalizeCat(it.cat || it.category) === catFilter; });
       if (kw) shown = shown.filter(function (it) {
         var catName = normalizeCat(it.cat || it.category);
-        var hayBase = ((it.name || '') + ' ' + (it.loc || '') + ' ' + (it.qty || '') + ' ' + (it.meta || '') + ' ' + catName).toLowerCase();
-        var hay = hayBase + ' ' + pyInit(it.name || '') + ' ' + pyInit(it.loc || '') + ' ' + pyInit(catName);
+        var hayBase = ((it.name || '') + ' ' + (it.loc || '') + ' ' + (it.qty || '') + ' ' + (it.meta || '') + ' ' + (it.tags || '') + ' ' + (it.note || '') + ' ' + catName).toLowerCase();
+        var hay = hayBase + ' ' + pyInit(it.name || '') + ' ' + pyInit(it.loc || '') + ' ' + pyInit(it.tags || '') + ' ' + pyInit(it.note || '') + ' ' + pyInit(catName);
         return hay.indexOf(kw) !== -1;
       });
       if (!shown.length) {
@@ -4813,7 +4813,7 @@
   }
 
   /* ═══════════ 关于本软件 ═══════════ */
-  var APP_VERSION = '4.6';  // 专业版 V4.4
+  var APP_VERSION = '4.7';  // 专业版 V4.4
   window.APP_VERSION = APP_VERSION;   // 暴露给锁屏等外部脚本
   var APP_AUTHOR = 'Peter.Xiong';
   var APP_MAKER = '智普 AutoClaw 的设计专家系统';

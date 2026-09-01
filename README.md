@@ -26,21 +26,6 @@
 - 启动密码锁（可选）
 - 离线可用（Service Worker 缓存）
 
-## 使用方式
-
-### 方式一：GitHub Pages（推荐）
-
-1. Settings → Pages → Source 选 `main` 分支 / 根目录 → Save
-2. 得到网址 `https://gxxiong6696.github.io/family-items-pro/`
-3. 手机浏览器打开 → 添加到主屏幕 → 全屏 App 体验
-
-### 方式二：本地打开
-
-双击 `index.html` 即可（部分浏览器对摄像头/存储有限制，建议 Pages 或 APK）。
-
-### 方式三：Android APK
-
-见 Releases 页面下载（可选上传）。
 
 ## 备份与安全
 

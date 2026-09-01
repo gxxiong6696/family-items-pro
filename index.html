@@ -3863,10 +3863,17 @@
       camVideo.play().catch(function () {});
     }).catch(function (err) {
       var msg = '无法开启摄像头';
-      if (err && (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError' || err.name === 'SecurityError')) {
-        msg = '请在浏览器/系统设置中允许访问摄像头';
+      var ua = (navigator.userAgent || '');
+      var isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+      var inAppBrowser = /TTBrowser|Toutiao|NewsArticle|aweme|MicroMessenger|wxwork|DingTalk|DingWebView|QQ\//.test(ua) && !isNative;
+      if (isNative) {
+        msg = '请在系统设置中允许本应用使用相机后重试';
+      } else if (inAppBrowser) {
+        msg = '当前在 App 内置浏览器中，网页无法调用摄像头：请点右上角「···」选「在浏览器打开」，或下载安装本软件 App 使用';
+      } else if (err && (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError' || err.name === 'SecurityError')) {
+        msg = '未获得摄像头权限：请在浏览器地址栏允许「摄像头」访问后重试';
       } else if (err && (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError')) {
-        msg = '未检测到摄像头，请在手机上打开';
+        msg = '未检测到摄像头，请检查相机是否可用';
       } else if (err && (err.name === 'NotReadableError' || err.name === 'TrackStartError')) {
         msg = '摄像头被占用，请关闭其它相机应用后重试';
       } else if (err && err.name === 'NotSupportedError') {
@@ -4813,7 +4820,7 @@
   }
 
   /* ═══════════ 关于本软件 ═══════════ */
-  var APP_VERSION = '4.7';  // 专业版 V4.4
+  var APP_VERSION = '4.8';  // 专业版 V4.4
   window.APP_VERSION = APP_VERSION;   // 暴露给锁屏等外部脚本
   var APP_AUTHOR = 'Peter.Xiong';
   var APP_MAKER = '智普 AutoClaw 的设计专家系统';

@@ -859,6 +859,7 @@
               <span class="tag active" data-remtab="drug">药品效期</span>
               <span class="tag" data-remtab="food">食品保质期</span>
               <span class="tag" data-remtab="appliance">家电保修</span>
+<span class="tag" data-action="show-deleted" style="flex:none; color:#64748b; background:var(--accent-soft); border:1px dashed var(--accent-deep);">已处理</span>
             </div>
           </section>
 
@@ -2250,6 +2251,11 @@
           (items || []).forEach(function (it) { if (it && it.name) keepSet[it.name] = 1; });
           var delFinal = Object.keys(delSet2);
           saveDeleted(delFinal);
+          // 已处理记录并集（备份中对应物品仍在列表里的跳过，避免与现役物品重复）
+          var fullMap = {};
+          loadDeletedFull().forEach(function (r) { if (r && r.name) fullMap[r.name] = r; });
+          (obj.deletedFull || []).forEach(function (r) { if (r && r.name && !fullMap[r.name] && !keepSet[r.name]) fullMap[r.name] = r; });
+          saveDeletedFull(Object.keys(fullMap).map(function (k) { return fullMap[k]; }));
           // 改名映射合并（备份键不覆盖本机已有键）
           var renMap = loadLocRenamed();
           Object.keys(locRens || {}).forEach(function (k) { if (!(k in renMap)) renMap[k] = locRens[k]; });
@@ -2292,6 +2298,7 @@
           var del = (delItems || []).slice();
           DEMO_ITEMS.forEach(function (dm) { if (keep.indexOf(dm.name) < 0 && del.indexOf(dm.name) < 0) del.push(dm.name); });
           saveDeleted(del);
+          saveDeletedFull(Array.isArray(obj.deletedFull) ? obj.deletedFull.slice() : []);
           toast('导入成功（已覆盖现有数据）');
         }
       } else if (Array.isArray(obj)) {
@@ -2363,6 +2370,7 @@
       items: loadUserItems(),
       locations: loadLocations(),
       deletedItems: loadDeleted(),
+      deletedFull: loadDeletedFull(),
       deletedLocs: loadDeletedLocs(),
       locRenames: loadLocRenamed()
     };
@@ -3466,16 +3474,20 @@
       '<div class="pv-mask"></div>' +
       '<div class="pv-box">' +
         '<div class="pv-head"><span class="pv-title"></span><button class="pv-close">✕</button></div>' +
-        '<div class="pv-img-wrap"><img class="pv-img" alt=""></div>' +
+        '<div class="pv-img-wrap">' +
+        '<span class="pv-back">← 返回</span>' +
+        '<img class="pv-img" alt=""></div>' +
         '<div class="pv-bar"><button class="pv-save">另存为文件</button><span class="pv-hint">证件等图片可保存到设备</span></div>' +
       '</div>';
     document.body.appendChild(ov);
     var style = document.createElement('style');
-    style.textContent = '#photo-viewer .pv-mask{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:10000}#photo-viewer .pv-box{position:fixed;z-index:10001;left:50%;top:50%;transform:translate(-50%,-50%);width:min(94vw,680px);max-height:88vh;background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.4)}#photo-viewer .pv-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #eef1f6}#photo-viewer .pv-title{font-size:15px;font-weight:600;color:#1c2333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#photo-viewer .pv-close{border:none;background:#f1f3f8;color:#5a6474;width:30px;height:30px;border-radius:8px;font-size:15px;cursor:pointer}#photo-viewer .pv-img-wrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;background:#0b0f18;padding:8px}#photo-viewer .pv-img{max-width:100%;max-height:calc(88vh - 150px);object-fit:contain;border-radius:8px}#photo-viewer .pv-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid #eef1f6}#photo-viewer .pv-save{flex:none;padding:10px 18px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-size:14px;font-weight:600;cursor:pointer}#photo-viewer .pv-hint{flex:1;color:#98a1b0;font-size:12px}';
+    style.textContent = '#photo-viewer .pv-mask{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:10000}#photo-viewer .pv-box{position:fixed;z-index:10001;left:50%;top:50%;transform:translate(-50%,-50%);width:min(94vw,680px);max-height:88vh;background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.4)}#photo-viewer .pv-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #eef1f6}#photo-viewer .pv-title{font-size:15px;font-weight:600;color:#1c2333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#photo-viewer .pv-close{border:none;background:#f1f3f8;color:#5a6474;width:30px;height:30px;border-radius:8px;font-size:15px;cursor:pointer}#photo-viewer .pv-img-wrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;background:#0b0f18;padding:8px}#photo-viewer .pv-back{position:absolute;top:58px;left:18px;z-index:6;color:#fff;font-size:14px;text-decoration:underline;cursor:pointer;text-shadow:0 1px 4px rgba(0,0,0,.8);line-height:1;user-select:none;-webkit-user-select:none}#photo-viewer .pv-img{max-width:100%;max-height:calc(88vh - 150px);object-fit:contain;border-radius:8px}#photo-viewer .pv-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid #eef1f6}#photo-viewer .pv-save{flex:none;padding:10px 18px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-size:14px;font-weight:600;cursor:pointer}#photo-viewer .pv-hint{flex:1;color:#98a1b0;font-size:12px}';
     document.head.appendChild(style);
     ov.querySelector('.pv-title').textContent = _viewingItem;
     var img = ov.querySelector('.pv-img'); img.src = src; img.alt = _viewingItem;
     ov.querySelector('.pv-close').addEventListener('click', function(){ ov.remove(); });
+    ov.querySelector('.pv-back').addEventListener('click', function(){ ov.remove(); });
+    ov.querySelector('.pv-img').addEventListener('click', function(){ ov.remove(); });
     ov.querySelector('.pv-mask').addEventListener('click', function(){ ov.remove(); });
     ov.querySelector('.pv-save').addEventListener('click', function(){ savePhotoFile(fname, ext, b64, src, ref); });
   }
@@ -3777,6 +3789,7 @@
       case 'go-items':       resetDetailEditMode(); showPage('page-items'); break;
       case 'go-locations':   showPage('page-locations'); break;
       case 'view-loc-items': viewLocItems(el.getAttribute('data-loc')); break;
+case 'show-deleted': showDeletedItems(); break;
       case 'clear-loc-filter': clearLocFilter(); break;
 
       case 'go-reminders':   showPage('page-reminders'); break;
@@ -4119,6 +4132,9 @@
   var DELETED_KEY = 'family-deleted-items';
   function loadDeleted() { try { var v = localStorage.getItem(DELETED_KEY); return v ? JSON.parse(v) : []; } catch (e) {} return []; }
   function saveDeleted(arr) { try { localStorage.setItem(DELETED_KEY, JSON.stringify(arr)); } catch (e) {} }
+  var DELETED_FULL_KEY = 'family-items-deleted-full';
+  function loadDeletedFull() { try { var v = localStorage.getItem(DELETED_FULL_KEY); return v ? JSON.parse(v) : []; } catch (e) {} return []; }
+  function saveDeletedFull(arr) { try { localStorage.setItem(DELETED_FULL_KEY, JSON.stringify(arr)); } catch (e) {} }
   // 演示物品清单（仅用于首次渲染与“非用户数据”归类，用户可通过删除/编辑把它们降级为用户物品）
   var DEMO_ITEMS = [
     { name: '布洛芬缓释胶囊', badge: 'danger', badgeText: '6 天', meta: '药品 · 添加于 2025-03-12 · @m1', loc: '办公室 · 书柜', qty: '2 盒', cat: '药品' },
@@ -4516,24 +4532,126 @@ function renderItemLists() {    var items = getAllItems();
     // 从用户物品中删
     var arr = loadUserItems();
     var _delPhotoRef = null;
+    var _delRec = null;
     var _dDetail = ITEM_DETAILS ? ITEM_DETAILS[name] : null;
-    arr.forEach(function (it) { if (it && it.name === name && it.photo) _delPhotoRef = it.photo; });
+    arr.forEach(function (it) { if (it && it.name === name) { _delRec = it; if (it.photo) _delPhotoRef = it.photo; } });
     if (!_delPhotoRef && _dDetail && _dDetail.photo) _delPhotoRef = _dDetail.photo;
     arr = arr.filter(function (it) { return it && it.name !== name; });
     saveUserItems(arr);
     // 从 ITEM_DETAILS 中删
     if (ITEM_DETAILS) { delete ITEM_DETAILS[name]; }
-    // PRO-IDB：同步删除 IDB 中的照片
-    if (_delPhotoRef) { try { deletePhotoRef(_delPhotoRef); } catch (e) {} }
+    // PRO-IDB：保留 IDB 原图（供「已处理」恢复；彻底删除时才清理）
     // 记录到删除列表，防止演示物品刷新后还原
     var del = loadDeleted();
     if (del.indexOf(name) < 0) del.push(name);
     saveDeleted(del);
+    // 记录完整物品信息到「已处理」，支持查看与恢复
+    if (_delRec) {
+      var _full = loadDeletedFull();
+      var _dup = false;
+      _full.forEach(function (r) { if (r && r.name === name) _dup = true; });
+      if (!_dup) {
+        var _rec = JSON.parse(JSON.stringify(_delRec));
+        _rec.delAt = Date.now();
+        _full.push(_rec);
+        saveDeletedFull(_full);
+      }
+    }
     // 重建列表 + 同步刷新提醒中心/主页雷达
     renderItemLists();
     renderReminderCenter();
     toast('已删除');
     goHome();
+  }
+
+  // ── 已处理（删除记录）：查看 / 恢复 / 彻底删除 ──
+  function showDeletedItems() {
+    var full = loadDeletedFull();
+    var ov = document.createElement('div');
+    ov.id = 'deleted-viewer';
+    ov.innerHTML =
+      '<div class="dv-mask"></div>' +
+      '<div class="dv-box">' +
+        '<div class="dv-head"><span class="dv-title">已处理（删除记录）</span><button class="dv-close">✕</button></div>' +
+        '<div class="dv-list">' + buildDeletedRows(full) + '</div>' +
+        '<div class="dv-tip">恢复后物品回到列表（照片一并恢复）；彻底删除不可恢复</div>' +
+      '</div>';
+    document.body.appendChild(ov);
+    var style = document.createElement('style');
+    style.textContent = '#deleted-viewer .dv-mask{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000}#deleted-viewer .dv-box{position:fixed;z-index:10001;left:50%;top:50%;transform:translate(-50%,-50%);width:min(94vw,560px);max-height:86vh;background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.35)}#deleted-viewer .dv-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eef1f6}#deleted-viewer .dv-title{font-size:15px;font-weight:600;color:#1c2333}#deleted-viewer .dv-close{border:none;background:#f1f3f8;color:#5a6474;width:30px;height:30px;border-radius:8px;font-size:15px;cursor:pointer}#deleted-viewer .dv-list{flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}#deleted-viewer .dv-row{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #eef1f6;border-radius:12px;background:#fafbfd}#deleted-viewer .dv-main{flex:1;min-width:0}#deleted-viewer .dv-name{font-size:14px;font-weight:600;color:#1c2333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#deleted-viewer .dv-meta{font-size:12px;color:#8a94a6;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#deleted-viewer .dv-ops{flex:none;display:flex;gap:8px}#deleted-viewer .dv-restore{border:none;background:#2563eb;color:#fff;padding:7px 14px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer}#deleted-viewer .dv-purge{border:1px solid #e2e8f0;background:#fff;color:#94a3b8;padding:6px 12px;border-radius:9px;font-size:12px;cursor:pointer}#deleted-viewer .dv-tip{font-size:12px;color:#98a1b0;text-align:center;padding:10px 16px;border-top:1px solid #eef1f6}';
+    document.head.appendChild(style);
+    ov.querySelector('.dv-close').addEventListener('click', function () { ov.remove(); });
+    ov.querySelector('.dv-mask').addEventListener('click', function () { ov.remove(); });
+    bindDeletedViewer(ov);
+  }
+  function buildDeletedRows(full) {
+    var rows = '';
+    full.slice().sort(function (a, b) { return (b.delAt || 0) - (a.delAt || 0); }).forEach(function (r) {
+      var nm = r && r.name ? r.name : '未命名';
+      var cat = normalizeCat((r && (r.cat || r.category)) || '物品');
+      var loc = (r && r.loc) || '未设置';
+      var dt = r && r.delAt ? formatDelTime(r.delAt) : '';
+      rows += '<div class="dv-row"><div class="dv-main"><div class="dv-name">' + esc(nm) + '</div>' +
+        '<div class="dv-meta">' + esc(cat) + ' · ' + esc(loc) + (dt ? ' · 删除于 ' + dt : '') + '</div></div>' +
+        '<div class="dv-ops"><button class="dv-restore" data-name="' + esc(nm) + '">恢复</button>' +
+        '<button class="dv-purge" data-name="' + esc(nm) + '">彻底删除</button></div></div>';
+    });
+    return rows || '<div class="empty-hint">暂无已处理的物品</div>';
+  }
+  function bindDeletedViewer(ov) {
+    ov.querySelectorAll('.dv-restore').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var nm = b.getAttribute('data-name');
+        restoreDeletedItem(nm).then(function (ok) { if (ok) ov.remove(); });
+      });
+    });
+    ov.querySelectorAll('.dv-purge').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var nm = b.getAttribute('data-name');
+        if (purgeDeletedItem(nm)) {
+          var listEl = ov.querySelector('.dv-list');
+          if (listEl) listEl.innerHTML = buildDeletedRows(loadDeletedFull());
+        }
+      });
+    });
+  }
+  function formatDelTime(ts) {
+    var d = new Date(ts);
+    return (d.getMonth() + 1) + '月' + d.getDate() + '日 ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+  async function restoreDeletedItem(name) {
+    if (!name) return false;
+    var full = loadDeletedFull();
+    var rec = null;
+    full = full.filter(function (r) { if (r && r.name === name) { rec = r; return false; } return true; });
+    if (!rec) { toast('未找到该删除记录'); return false; }
+    saveDeletedFull(full);
+    var del = loadDeleted();
+    del = del.filter(function (n) { return n !== name; });
+    saveDeleted(del);
+    var arr = loadUserItems();
+    var item = {};
+    for (var k in rec) { if (k !== 'delAt') item[k] = rec[k]; }
+    arr.unshift(item);
+    var _rr = await saveUserItemsResilient(arr);
+    if (!_rr.ok) { toast('恢复失败：本地存储空间不足'); return false; }
+    renderItemLists();
+    renderReminderCenter();
+    toast('已恢复：' + name);
+    return true;
+  }
+  function purgeDeletedItem(name) {
+    if (!name) return false;
+    if (!window.confirm('彻底删除「' + name + '」的记录？此操作不可恢复。')) return false;
+    var full = loadDeletedFull();
+    var rec = null;
+    full = full.filter(function (r) { if (r && r.name === name) { rec = r; return false; } return true; });
+    saveDeletedFull(full);
+    if (rec && rec.photo && typeof deletePhotoRef === 'function' && rec.photo.indexOf('idb:') === 0) {
+      try { deletePhotoRef(rec.photo); } catch (e) {}
+    }
+    toast('已彻底删除：' + name);
+    return true;
   }
 
   function prependItemRow(name, cat, loc, qty) {
@@ -4839,7 +4957,7 @@ function renderItemLists() {    var items = getAllItems();
   }
 
   /* ═══════════ 关于本软件 ═══════════ */
-  var APP_VERSION = '4.9';  // 专业版 V4.4
+  var APP_VERSION = '4.11';  // 专业版 V4.4
   window.APP_VERSION = APP_VERSION;   // 暴露给锁屏等外部脚本
   var APP_AUTHOR = 'Peter.Xiong';
   var APP_MAKER = '智普 AutoClaw 的设计专家系统';

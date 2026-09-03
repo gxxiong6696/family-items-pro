@@ -3661,7 +3661,13 @@
   }
 
   function saveItemEdit() {
+
     var newName = (document.getElementById('ed-name') ? document.getElementById('ed-name').textContent.trim() : _viewingItem) || _viewingItem;
+// 重名保护（V4.13）：改名后若与库中其他物品同名，阻止保存并提醒，避免覆盖原物品
+if (newName && newName !== _viewingItem && typeof ITEM_DETAILS !== 'undefined' && ITEM_DETAILS[newName]) {
+toast('已存在同名物品「' + newName + '」，本次未保存。请换一个名称，或先删除/合并原同名物品');
+return;
+}
     var loc = (document.getElementById('ed-loc') ? document.getElementById('ed-loc').value : '') || '未设置';
     var qty = (document.getElementById('ed-qty') ? document.getElementById('ed-qty').textContent.trim() : '') || '1';
     var tags = (document.getElementById('ed-tags') ? document.getElementById('ed-tags').textContent.trim() : '');
@@ -4861,7 +4867,7 @@ function renderItemLists() {    var items = getAllItems();
   }
 
   // —— 注册码 加密+签名（V5.0）：密文隐藏明文，私钥只在生成器，App 用公钥验签+解密 ——
-  var LICENSE_PUBKEY = {"key_ops":["verify"],"ext":true,"kty":"EC","x":"6jJ_n6s5_eq0uw0_rDebWiLJH_5lRtrQBLF1n51mXrg","y":"K84cVDp-U5GWILbUA8vwMzFILHeZztxA-mMBkfiu0ak","crv":"P-256"};
+  var LICENSE_PUBKEY = {"key_ops":["verify"],"ext":true,"kty":"EC","x":"upxubxmOtepL4DTXhoGkdKx3GXYuSrCyKen3hscVYKc","y":"A0HDXQ6Svn2qdK82a7OGxLvzb7nIm-jFlvlIXYuxT2c","crv":"P-256"};
   function hexToBytes(hex){
     var out = new Uint8Array(hex.length / 2);
     for (var i = 0; i < out.length; i++) out[i] = parseInt(hex.substr(i*2, 2), 16);
@@ -4871,13 +4877,13 @@ function renderItemLists() {    var items = getAllItems();
     return Array.prototype.map.call(bytes, function(b){ return ('0'+b.toString(16)).slice(-2); }).join('').toUpperCase();
   }
   function v5EncKey(){
-    return crypto.subtle.digest('SHA-256', new TextEncoder().encode('family-items-lic-v5-enc'))
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode('family-items-pro-lic-v5-enc'))
       .then(function(h){ return crypto.subtle.importKey('raw', h, {name:'AES-GCM'}, false, ['encrypt','decrypt']); });
   }
   function v5Verify(rawHex){
     var b = hexToBytes(rawHex);
     if (b.length < 1 + 12 + 64 + 1) return Promise.reject(new Error('注册码格式不正确'));
-    if (b[0] !== 0x34) return Promise.reject(new Error('版本/格式不支持'));
+    if (b[0] !== 0x35) return Promise.reject(new Error('版本/格式不支持'));
     var sig = b.slice(b.length - 64);              // 最后 64 字节签名
     var body = b.slice(0, b.length - 64);          // 版本+IV+密文（会被签名）
     return crypto.subtle.importKey('jwk', LICENSE_PUBKEY, {name:'ECDSA', namedCurve:'P-256'}, false, ['verify'])
@@ -4957,7 +4963,7 @@ function renderItemLists() {    var items = getAllItems();
   }
 
   /* ═══════════ 关于本软件 ═══════════ */
-  var APP_VERSION = '4.11';  // 专业版 V4.4
+  var APP_VERSION = '4.13';  // 专业版 V4.4
   window.APP_VERSION = APP_VERSION;   // 暴露给锁屏等外部脚本
   var APP_AUTHOR = 'Peter.Xiong';
   var APP_MAKER = '智普 AutoClaw 的设计专家系统';
